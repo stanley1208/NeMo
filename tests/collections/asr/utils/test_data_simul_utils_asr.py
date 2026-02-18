@@ -374,10 +374,14 @@ class TestDataSimulatorUtils:
             'spk_3': [{'audio_filepath': 'd.wav'}],
         }
         permutated_speaker_inds = np.array([[0, 1, 2, 3], [3, 2, 1, 0]])
-        speaker_ids = get_speaker_ids(sess_idx=0, speaker_samples=speaker_samples, permutated_speaker_inds=permutated_speaker_inds)
+        speaker_ids = get_speaker_ids(
+            sess_idx=0, speaker_samples=speaker_samples, permutated_speaker_inds=permutated_speaker_inds
+        )
         assert speaker_ids == ['spk_0', 'spk_1', 'spk_2', 'spk_3']
 
-        speaker_ids = get_speaker_ids(sess_idx=1, speaker_samples=speaker_samples, permutated_speaker_inds=permutated_speaker_inds)
+        speaker_ids = get_speaker_ids(
+            sess_idx=1, speaker_samples=speaker_samples, permutated_speaker_inds=permutated_speaker_inds
+        )
         assert speaker_ids == ['spk_3', 'spk_2', 'spk_1', 'spk_0']
 
     def test_get_speaker_ids_wraps_around(self):
@@ -386,7 +390,9 @@ class TestDataSimulatorUtils:
             'spk_1': [{'audio_filepath': 'b.wav'}],
         }
         permutated_speaker_inds = np.array([[0, 1], [1, 0]])
-        speaker_ids = get_speaker_ids(sess_idx=2, speaker_samples=speaker_samples, permutated_speaker_inds=permutated_speaker_inds)
+        speaker_ids = get_speaker_ids(
+            sess_idx=2, speaker_samples=speaker_samples, permutated_speaker_inds=permutated_speaker_inds
+        )
         assert speaker_ids == ['spk_0', 'spk_1'], "sess_idx should wrap around via modulo"
 
     def test_build_speaker_samples_map(self):
@@ -430,7 +436,7 @@ class TestDataSimulatorUtils:
         result = per_speaker_normalize(sentence_audio, splits, speaker_turn, volumes, device)
         assert result.shape == sentence_audio.shape
 
-        rms = torch.sqrt(torch.mean(result ** 2))
+        rms = torch.sqrt(torch.mean(result**2))
         assert abs(rms.item() - volume) < 1e-4, f"Expected RMS ~{volume}, got {rms.item()}"
 
 
